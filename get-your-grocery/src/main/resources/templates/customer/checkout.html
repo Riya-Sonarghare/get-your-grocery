@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Checkout - GetYourGrocery</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <!-- Product summary card -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">Product Summary</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="mb-1" th:text="${product.name}"></h5>
+                            <p class="text-muted mb-1 small" th:text="${product.description}"></p>
+                            <p class="mb-0">
+                                <strong>Price:</strong>
+                                <span class="text-success fw-bold">
+                                    &#8377;<span th:text="${product.price}"></span> / unit
+                                </span>
+                                &nbsp;|&nbsp;
+                                <strong>Stock Available:</strong>
+                                <span th:text="${product.stockQuantity}"></span> units
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout form -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">Delivery Details</h6>
+                    <small class="text-muted">Your profile info is pre-filled — feel free to change it for this order.</small>
+                </div>
+                <div class="card-body p-4">
+
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <form method="post" th:action="@{/customer/checkout}" th:object="${checkoutDto}">
+
+                        <!-- Hidden product ID -->
+                        <input type="hidden" th:field="*{productId}"/>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Your Username / Name</label>
+                            <input type="text" th:field="*{customerUsername}"
+                                   class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Delivery Address <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" th:field="*{deliveryAddress}"
+                                   class="form-control" required
+                                   placeholder="Full delivery address"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Contact Number <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" th:field="*{contactNumber}"
+                                   class="form-control" required
+                                   placeholder="Phone number"/>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Quantity <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" th:field="*{quantity}"
+                                   class="form-control" min="1"
+                                   th:max="${product.stockQuantity}" required/>
+                            <div class="form-text">
+                                Max available: <span th:text="${product.stockQuantity}"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">Place Order</button>
+                            <a th:href="@{/customer/dashboard}" class="btn btn-secondary">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

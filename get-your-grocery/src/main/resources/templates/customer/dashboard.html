@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Browse Products - GetYourGrocery</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">&#128722; Fresh Groceries</h4>
+
+    <!-- Flash messages -->
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${param.success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${products.empty}" class="alert alert-info">
+        No products are available right now. Check back later!
+    </div>
+
+    <!-- Product cards -->
+    <div class="row row-cols-1 row-cols-md-3 g-4" th:if="${!products.empty}">
+
+        <div class="col" th:each="product : ${products}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+
+                    <p class="card-text text-muted small"
+                       th:text="${product.description != null ? product.description : 'No description'}">
+                    </p>
+
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted">Category</td>
+                            <td th:text="${product.category != null ? product.category : '—'}"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Price</td>
+                            <td><strong class="text-success">&#8377;<span th:text="${product.price}"></span></strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Stock</td>
+                            <td th:text="${product.stockQuantity} + ' units'"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Seller</td>
+                            <td th:text="${product.seller.username}"></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="card-footer d-flex gap-2">
+                    <a th:href="@{/customer/checkout/{id}(id=${product.id})}"
+                       class="btn btn-success btn-sm">Order Now</a>
+
+                    <form th:action="@{/customer/saved/add/{id}(id=${product.id})}"
+                          method="post">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                            &#9825; Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

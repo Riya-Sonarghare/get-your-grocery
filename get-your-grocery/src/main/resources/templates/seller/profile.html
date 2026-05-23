@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Profile &amp; Earnings - GetYourGrocery</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <h4 class="mb-4">Profile &amp; Earnings</h4>
+
+    <!-- Flash messages -->
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${param.success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show">
+        <span th:text="${param.error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="profileTabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#profile-tab">My Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#earnings-tab">&#128181; Earnings</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ── Profile Tab ── -->
+        <div class="tab-pane fade show active" id="profile-tab">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h6 class="mb-0">Update Profile</h6>
+                        </div>
+                        <div class="card-body p-4">
+                            <form method="post" th:action="@{/seller/profile/update}">
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Username</label>
+                                    <input type="text" class="form-control bg-light"
+                                           th:value="${seller.username}" disabled/>
+                                    <div class="form-text">Username cannot be changed.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="text" class="form-control bg-light"
+                                           th:value="${seller.email}" disabled/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Address</label>
+                                    <input type="text" name="address" class="form-control"
+                                           th:value="${seller.address}"
+                                           placeholder="Your address"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Contact Number</label>
+                                    <input type="text" name="contactNumber" class="form-control"
+                                           th:value="${seller.contactNumber}"
+                                           placeholder="Your phone number"/>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">
+                                        New Password
+                                        <small class="text-muted fw-normal">(leave blank to keep current)</small>
+                                    </label>
+                                    <input type="password" name="password" class="form-control"
+                                           placeholder="New password"/>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Earnings Tab ── -->
+        <div class="tab-pane fade" id="earnings-tab">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card shadow-sm text-center">
+                        <div class="card-header bg-success text-white">
+                            <h6 class="mb-0">Today's Earnings</h6>
+                        </div>
+                        <div class="card-body py-5">
+                            <h1 class="display-4 text-success fw-bold">
+                                &#8377;<span th:text="${#numbers.formatDecimal(earningsToday, 1, 2)}">0.00</span>
+                            </h1>
+                            <p class="text-muted mt-2">
+                                Total from <strong>delivered</strong> orders today
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted small">
+                            Earnings are calculated from orders you marked as delivered today.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

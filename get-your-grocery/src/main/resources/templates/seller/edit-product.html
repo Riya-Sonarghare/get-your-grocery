@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Product - GetYourGrocery</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Edit Product</h5>
+                </div>
+                <div class="card-body p-4">
+
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <form method="post"
+                          th:action="@{/seller/products/edit/{id}(id=${productDto.id})}"
+                          th:object="${productDto}">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Product Name <span class="text-danger">*</span></label>
+                            <input type="text" th:field="*{name}" class="form-control" required/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Description</label>
+                            <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Price (&#8377;) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" min="0.01"
+                                       th:field="*{price}" class="form-control" required/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Stock Quantity <span class="text-danger">*</span></label>
+                                <input type="number" min="0"
+                                       th:field="*{stockQuantity}" class="form-control" required/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Category</label>
+                            <input type="text" th:field="*{category}" class="form-control"/>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       th:field="*{available}" id="availableCheck"/>
+                                <label class="form-check-label fw-semibold" for="availableCheck">
+                                    Mark as Available
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-warning">Update Product</button>
+                            <a th:href="@{/seller/dashboard}" class="btn btn-secondary">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

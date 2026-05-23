@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid px-4">
+
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-5" href="#">&#128722; GetYourGrocery</a>
+
+        <!-- Nav Links -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!-- SELLER links -->
+                <th:block th:if="${role == 'SELLER'}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/seller/dashboard}">My Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/seller/orders}">Orders Received</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/seller/profile}">Profile &amp; Earnings</a>
+                    </li>
+                </th:block>
+
+                <!-- CUSTOMER links -->
+                <th:block th:if="${role == 'CUSTOMER'}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/dashboard}">Browse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/orders}">My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/saved}">Saved</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/customer/profile}">Profile</a>
+                    </li>
+                </th:block>
+
+            </ul>
+        </div>
+
+        <!-- Right side: username + logout -->
+        <div class="d-flex align-items-center gap-3">
+            <span class="text-white">
+                Hello, <strong th:text="${username}">User</strong>
+                <span th:if="${role == 'SELLER'}"
+                      class="badge bg-light text-success ms-1">Seller</span>
+                <span th:if="${role == 'CUSTOMER'}"
+                      class="badge bg-light text-success ms-1">Customer</span>
+            </span>
+            <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+
+    </div>
+</nav>
+
+</body>
+</html>
