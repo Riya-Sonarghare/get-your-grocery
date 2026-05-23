@@ -26,7 +26,7 @@ GetYourGrocery is a multi-role grocery web application developed using Spring Bo
 
 Clone the repository:
 ```bash
-git clone https://github.com/Akash-Kadu/GetYourGrocery.git
+git clone https://github.com/Riya-Sonarghare/Get-your-grocery.git
 ```
 
 Configure database credentials in:
@@ -67,5 +67,5 @@ http://localhost:8080
 
 ---
 
-👨‍💻 Developed by Akash Kadu
-LinkedIn: https://linkedin.com/in/akash-kadu/
+👨‍💻 Developed by Riya Sonarghare
+LinkedIn: https://linkedin.com/in/Riya-Sonarghare/get-your-grocery
